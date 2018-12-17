@@ -16,7 +16,10 @@ namespace Test
         {
             _actions.Add(C02);
             _actions.Add(C12);
-            _actions.Add(PWORG);
+            _actions.Add(Office);
+            _actions.Add(Vessel);
+            _actions.Add(Department);
+            _actions.Add(Positions);
         }
 
         private int _currentIndex;
@@ -38,7 +41,10 @@ namespace Test
         {
             CurrentAmountOfRows = 1001;
             CurrentTableName = "C02";
-            return new C02().WithRandom(new AlphabeticRandomizer()).Generate(CurrentAmountOfRows);
+            return new C02()
+                .WithRandom(new AlphabeticRandomizer())
+                .WithPrefix("RANK_")
+                .Generate(CurrentAmountOfRows);
         }
 
         private string C12()
@@ -48,11 +54,53 @@ namespace Test
             return new C12().Generate();
         }
 
-        private string PWORG()
+        private string Office()
         {
-            CurrentAmountOfRows = 1000;
+            CurrentAmountOfRows = 1;
             CurrentTableName = "PWORG";
-            return new PWORG().WithRandom(new AlphabeticRandomizer()).Generate(CurrentAmountOfRows, 9999);
+            return new PWORG()
+                .WithOrgType(2)
+                .WithCounter(200)
+                .WithParent(1)
+                .WithRandom(new AlphabeticRandomizer())
+                .WithPrefix("ORG_")
+                .Generate(CurrentAmountOfRows);
+        }
+
+        private string Vessel()
+        {
+            CurrentAmountOfRows = 1;
+            CurrentTableName = "PWORG";
+            return new PWORG()
+                .WithOrgType(3)
+                .WithCounter(201)
+                .WithRandom(new AlphabeticRandomizer())
+                .WithPrefix("VES_")
+                .Generate(CurrentAmountOfRows);
+        }
+
+        private string Department()
+        {
+            CurrentAmountOfRows = 1;
+            CurrentTableName = "PWORG";
+            return new PWORG()
+                .WithOrgType(4)
+                .WithCounter(202)
+                .WithRandom(new AlphabeticRandomizer())
+                .WithPrefix("DEP_")
+                .Generate(CurrentAmountOfRows);
+        }
+
+        private string Positions()
+        {
+            CurrentAmountOfRows = 1001;
+            CurrentTableName = "PWORG";
+            return new PWORG()
+                .WithOrgType(5)
+                .WithCounter(203)
+                .WithRandom(new AlphabeticRandomizer())
+                .WithPrefix("POS_")
+                .Generate(CurrentAmountOfRows);
         }
     }
 }

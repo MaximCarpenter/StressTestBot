@@ -1,41 +1,20 @@
 ﻿using System;
-using DataFeeder.Randomizers;
 
 namespace Feeders
 {
-    public class C02
+    public class C02 : DataToInsert
     {
-        public string Insert => "INSERT [dbo].[PW001C02] ([CODE], [GROUPNO], [CREATED], [CREATEDBY], [SEQUENCENO], [CODETYPE], [NAME], [OPTIONS]) VALUES";
-        public const string NamePrefix = "RANK_";
-        private const string Values = " (N'{0}', 0, getdate(), N'script', {1}, N' ', N'{2}', N' ')";
-        private IAlphabeticRandomizer _randomCode;
-        private int _insertLimit;
+        protected override string Insert => "INSERT [dbo].[PW001C02] ([CODE], [GROUPNO], [CREATED], [CREATEDBY], [SEQUENCENO], [CODETYPE], [NAME], [OPTIONS]) VALUES";
+        protected override string Values => " (N'{0}', 0, getdate(), N'script', {1}, N' ', N'{2}', N' ')";
 
-        public C02 WithRandom(IAlphabeticRandomizer random)
+        protected override Func<string> InsertForm()
         {
-            _randomCode = new AlphabeticRandomizer();
-            return this;
+            return () => string.Format(Values, _randomCode.Next(), 1, Prefix + _randomCode.Current());
         }
 
-        public string Generate(int count)
+        public override string Generate(int count)
         {
-            var result = Insert;
-            for (var i = 0; i < count; i++)
-            {
-                result += Environment.NewLine;
-                result += string.Format(Values, _randomCode.Next(), 1, NamePrefix + _randomCode.Current());
-                if (i != count - 1 && _insertLimit < 999) result += ",";
-                if (_insertLimit == 999)
-                {
-                    _insertLimit = 0;
-                    result += Environment.NewLine;
-                    result += Insert;
-                }
-                else
-                    _insertLimit++;
-            }
-
-            return result;
+            return GenerateInsert(0, count);
         }
     }
 }

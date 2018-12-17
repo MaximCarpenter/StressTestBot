@@ -1,60 +1,48 @@
 ﻿using System;
-using DataFeeder.Randomizers;
 
 namespace Feeders
 {
-    public class PWORG
+    public class PWORG: DataToInsert
     {
-        public string Insert => "INSERT [dbo].[PWORG] ([ORGCODE], [NAME], [ORGTYPE], [NUMORGID], [NUMORGIDABOVE], [CREATEDBY], [CREATETIME], [SORTING]) VALUES";
-        public const string OrgPrefix = "ORG_";
-        public const string VesselPrefix = "VES_";
-        public const string DepartmentPrefix = "DEP_";
-        public const string PositionPrefix = "POS_";
-        private const string Values = "(N'{0}', N'{1}', N'{2}', {3}, {4}, N'script', getdate(), 0)";
-        private IAlphabeticRandomizer _randomCode;
-        private int _insertLimit;
+        protected override string Insert => "INSERT [dbo].[PWORG] ([ORGCODE], [NAME], [ORGTYPE], [NUMORGID], [NUMORGIDABOVE], [CREATEDBY], [CREATETIME], [SORTING]) VALUES";
+        protected override string Values => "(N'{0}', N'{1}', N'{2}', {3}, {4}, N'script', getdate(), 0)";
 
-        public PWORG WithRandom(IAlphabeticRandomizer random)
+        protected override Func<string> InsertForm()
         {
-            _randomCode = new AlphabeticRandomizer();
+            return () => string.Format(Values, _randomCode.Next(), Prefix + _randomCode.Current(), _orgType, IterationCounter, GetParent());
+        }
+
+        private int GetParent()
+        {
+            if (_parent != -1) return _parent;
+            return IterationCounter - 1;
+        }
+
+        private int _counter;
+        private int _orgType;
+        private int _parent = -1;
+
+        public PWORG WithCounter(int counter)
+        {
+            _counter = counter;
             return this;
         }
 
-        //1 concern, 1 departments, 1 vessels, department 1 
-        public string Generate(int count, int activeVessel)
+        public PWORG WithOrgType(int orgType)
         {
-            var result = Insert;
-            int nextPositions;
+            _orgType = orgType;
+            return this;
+        }
 
-            result += string.Format(Values, _randomCode.Next(), OrgPrefix + _randomCode.Current(), 2, activeVessel - 2, 1);
-            result += ",";
-            result += Environment.NewLine;
+        public PWORG WithParent(int parent)
+        {
+            _parent = parent;
+            return this;
+        }
 
-            result += string.Format(Values, _randomCode.Next(), VesselPrefix + _randomCode.Current(), 3, activeVessel, activeVessel - 2);
-            result += ",";
-            result += Environment.NewLine;
-
-            result += string.Format(Values, _randomCode.Next(), DepartmentPrefix + _randomCode.Current(), 4, activeVessel - 1, activeVessel);
-            result += ",";
-            result += Environment.NewLine;
-
-            var limit = (count + activeVessel - 3);
-            for (nextPositions = activeVessel + 1; nextPositions < limit; nextPositions++)
-            {
-                result += Environment.NewLine;
-                result += string.Format(Values, _randomCode.Next(), PositionPrefix + _randomCode.Current(), 5, nextPositions, activeVessel - 1);
-                if (nextPositions != (limit) && _insertLimit < 995) result += ",";
-                if (_insertLimit == 995 && nextPositions != (limit-1))
-                {
-                    _insertLimit = 0;
-                    result += Environment.NewLine;
-                    result += Insert;
-                }
-                else
-                    _insertLimit++;
-            }
-
-            return result;
+        public override string Generate(int count)
+        {
+            return GenerateInsert(_counter, count);
         }
     }
 }

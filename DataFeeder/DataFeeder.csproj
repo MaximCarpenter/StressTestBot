@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Feeders\DataToInsert.cs" />
     <Compile Include="Feeders\PWORG.cs" />
     <Compile Include="Feeders\P01.cs" />
     <Compile Include="Feeders\C12.cs" />
