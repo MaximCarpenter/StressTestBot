@@ -14,8 +14,8 @@ namespace Test
 
         public ConcreteFeeder()
         {
-      //      _actions.Add(C02);
-        //    _actions.Add(C12);
+            _actions.Add(C02);
+            _actions.Add(C12);
             _actions.Add(PWORG);
         }
 
@@ -50,9 +50,9 @@ namespace Test
 
         private string PWORG()
         {
-            CurrentAmountOfRows = 10000;
+            CurrentAmountOfRows = 1000;
             CurrentTableName = "PWORG";
-            return new PWORG().WithRandom(new AlphabeticRandomizer()).Generate(CurrentAmountOfRows, 10000, 9999);
+            return new PWORG().WithRandom(new AlphabeticRandomizer()).Generate(CurrentAmountOfRows, 9999);
         }
     }
 }

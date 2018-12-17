@@ -5,7 +5,7 @@ namespace Feeders
 {
     public class C02
     {
-        public const string Insert = "INSERT [dbo].[PW001C02] ([CODE], [GROUPNO], [CREATED], [CREATEDBY], [SEQUENCENO], [CODETYPE], [NAME], [OPTIONS]) VALUES";
+        public string Insert => "INSERT [dbo].[PW001C02] ([CODE], [GROUPNO], [CREATED], [CREATEDBY], [SEQUENCENO], [CODETYPE], [NAME], [OPTIONS]) VALUES";
         public const string NamePrefix = "RANK_";
         private const string Values = " (N'{0}', 0, getdate(), N'script', {1}, N' ', N'{2}', N' ')";
         private IAlphabeticRandomizer _randomCode;

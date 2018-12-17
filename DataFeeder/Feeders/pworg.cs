@@ -5,7 +5,7 @@ namespace Feeders
 {
     public class PWORG
     {
-        public const string Insert = "INSERT [dbo].[PWORG] ([ORGCODE], [NAME], [ORGTYPE], [NUMORGID], [NUMORGIDABOVE], [CREATEDBY], [CREATETIME], [SORTING]) VALUES";
+        public string Insert => "INSERT [dbo].[PWORG] ([ORGCODE], [NAME], [ORGTYPE], [NUMORGID], [NUMORGIDABOVE], [CREATEDBY], [CREATETIME], [SORTING]) VALUES";
         public const string OrgPrefix = "ORG_";
         public const string VesselPrefix = "VES_";
         public const string DepartmentPrefix = "DEP_";
@@ -21,30 +21,30 @@ namespace Feeders
         }
 
         //1 concern, 1 departments, 1 vessels, department 1 
-        public string Generate(int count, int positions, int activeVessel)
+        public string Generate(int count, int activeVessel)
         {
             var result = Insert;
-            var nextPositions = activeVessel + 1;
+            int nextPositions;
 
-            result += string.Format(Values, _randomCode.Next(), OrgPrefix + _randomCode.Current(), 2, 2, 1);
+            result += string.Format(Values, _randomCode.Next(), OrgPrefix + _randomCode.Current(), 2, activeVessel - 2, 1);
             result += ",";
             result += Environment.NewLine;
 
-            result += string.Format(Values, _randomCode.Next(), VesselPrefix + _randomCode.Current(), 3, activeVessel, 2);
+            result += string.Format(Values, _randomCode.Next(), VesselPrefix + _randomCode.Current(), 3, activeVessel, activeVessel - 2);
             result += ",";
             result += Environment.NewLine;
 
-            result += string.Format(Values, _randomCode.Next(), DepartmentPrefix + _randomCode.Current(), 4, 3, activeVessel);
+            result += string.Format(Values, _randomCode.Next(), DepartmentPrefix + _randomCode.Current(), 4, activeVessel - 1, activeVessel);
             result += ",";
             result += Environment.NewLine;
 
-            for (nextPositions = 0; nextPositions < (positions + activeVessel); nextPositions++)
+            var limit = (count + activeVessel - 3);
+            for (nextPositions = activeVessel + 1; nextPositions < limit; nextPositions++)
             {
                 result += Environment.NewLine;
-                result += string.Format(Values, _randomCode.Next(), PositionPrefix + _randomCode.Current(), 5,
-                    nextPositions, 3);
-                if (nextPositions != (activeVessel + count - 1) && _insertLimit < 996) result += ",";
-                if (_insertLimit == 996)
+                result += string.Format(Values, _randomCode.Next(), PositionPrefix + _randomCode.Current(), 5, nextPositions, activeVessel - 1);
+                if (nextPositions != (limit) && _insertLimit < 995) result += ",";
+                if (_insertLimit == 995 && nextPositions != (limit-1))
                 {
                     _insertLimit = 0;
                     result += Environment.NewLine;
