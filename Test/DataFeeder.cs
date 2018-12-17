@@ -14,8 +14,9 @@ namespace Test
 
         public ConcreteFeeder()
         {
-            _actions.Add(C02);
-            _actions.Add(C12);
+      //      _actions.Add(C02);
+        //    _actions.Add(C12);
+            _actions.Add(PWORG);
         }
 
         private int _currentIndex;
@@ -37,7 +38,7 @@ namespace Test
         {
             CurrentAmountOfRows = 1001;
             CurrentTableName = "C02";
-            return new C02().WithRandom(new AlphabeticRandomizer()).Generate(1001);
+            return new C02().WithRandom(new AlphabeticRandomizer()).Generate(CurrentAmountOfRows);
         }
 
         private string C12()
@@ -45,6 +46,13 @@ namespace Test
             CurrentAmountOfRows = 2;
             CurrentTableName = "C12";
             return new C12().Generate();
+        }
+
+        private string PWORG()
+        {
+            CurrentAmountOfRows = 10000;
+            CurrentTableName = "PWORG";
+            return new PWORG().WithRandom(new AlphabeticRandomizer()).Generate(CurrentAmountOfRows, 10000, 9999);
         }
     }
 }

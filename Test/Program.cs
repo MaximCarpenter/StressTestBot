@@ -9,6 +9,7 @@ namespace Test
         static void Main(string[] args)
         {
             var connection = ConfigurationManager.AppSettings["connectionString"];
+            Console.WriteLine($"Started");
             var feeder = new FeederClient(connection);
             feeder.OperationEnd += OnOperationEnds;
             feeder.OperationStart += OnOperationStart;
