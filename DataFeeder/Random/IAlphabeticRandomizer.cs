@@ -1,6 +1,6 @@
 ﻿namespace DataFeeder.Randomizers
 {
-    public interface IAlphabeticRandomizer
+    public interface IAlphabeticGenerator
     {
         string Current();
         string Next();

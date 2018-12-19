@@ -1,6 +1,6 @@
 ﻿namespace DataFeeder.Randomizers
 {
-    public class AlphabeticRandomizer : IAlphabeticRandomizer
+    public class AlphabeticGenerator : IAlphabeticGenerator
     {
         private string _currentChar;
         private int _currentIndex = -1;

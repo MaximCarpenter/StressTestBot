@@ -10,6 +10,7 @@ namespace DataFeeder
         private readonly string _connectionString;
         public event EventHandler<OperationEventArgs> OperationEnd;
         public event EventHandler<OperationEventStartArgs> OperationStart;
+
         protected virtual void OnOperationEnd(OperationEventArgs e)
         {
             OperationEnd?.Invoke(this, e);

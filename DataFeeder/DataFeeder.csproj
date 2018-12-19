@@ -41,18 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Feeders\DataToInsert.cs" />
-    <Compile Include="Feeders\PWORG.cs" />
-    <Compile Include="Feeders\P01.cs" />
-    <Compile Include="Feeders\C12.cs" />
-    <Compile Include="Feeders\C02.cs" />
-    <Compile Include="Feeders\DataFeeder.cs" />
+    <Compile Include="Feeders\Base\DataToInsert.cs" />
+    <Compile Include="Feeders\ToInsert\P03.cs" />
+    <Compile Include="Feeders\ToInsert\P0P.cs" />
+    <Compile Include="Feeders\ToInsert\PWORG.cs" />
+    <Compile Include="Feeders\ToInsert\P01.cs" />
+    <Compile Include="Feeders\ToInsert\C12.cs" />
+    <Compile Include="Feeders\ToInsert\C02.cs" />
     <Compile Include="Feeders\FeederClient.cs" />
-    <Compile Include="Feeders\IDataFeeder.cs" />
-    <Compile Include="Feeders\OperationEventArgs.cs" />
+    <Compile Include="Feeders\Base\IDataFeeder.cs" />
+    <Compile Include="Feeders\Base\OperationEventArgs.cs" />
     <Compile Include="Random\AlphabeticRandomizer.cs" />
     <Compile Include="Random\IAlphabeticRandomizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Range.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

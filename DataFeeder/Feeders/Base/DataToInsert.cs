@@ -9,14 +9,14 @@ namespace Feeders
         protected abstract string Values { get; }
         protected string Prefix { get; private set; }
 
-        protected IAlphabeticRandomizer _randomCode;
+        protected IAlphabeticGenerator _randomCode;
         protected const int InsertLimit = 999;
         protected int InsertCounter = 0;
         protected int IterationCounter = 0;
 
-        public DataToInsert WithRandom(IAlphabeticRandomizer random)
+        public DataToInsert WithRandom(IAlphabeticGenerator random)
         {
-            _randomCode = new AlphabeticRandomizer();
+            _randomCode = new AlphabeticGenerator();
             return this;
         }
 
