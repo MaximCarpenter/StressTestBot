@@ -41,9 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Feeders\Base\DbCounter.cs" />
     <Compile Include="Feeders\Base\DataToInsert.cs" />
     <Compile Include="Feeders\ToInsert\P03.cs" />
     <Compile Include="Feeders\ToInsert\P0P.cs" />
+    <Compile Include="Feeders\ToInsert\COA.cs" />
     <Compile Include="Feeders\ToInsert\PWORG.cs" />
     <Compile Include="Feeders\ToInsert\P01.cs" />
     <Compile Include="Feeders\ToInsert\C12.cs" />

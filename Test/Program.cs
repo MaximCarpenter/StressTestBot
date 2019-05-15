@@ -13,7 +13,7 @@ namespace Test
             var feeder = new FeederClient(connection);
             feeder.OperationEnd += OnOperationEnds;
             feeder.OperationStart += OnOperationStart;
-            feeder.Feed(new ConcreteFeeder());
+            feeder.Feed(new ConcreteAPMFeeder());
             Console.Read();
         }
 

@@ -6,5 +6,7 @@
         string CurrentTableName { get; set; }
         string Next();
         bool End { get; }
+        DbCounter ApmCounter { get; }
+        DbCounter AppCounter { get; }
     }
 }

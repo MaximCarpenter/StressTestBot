@@ -13,8 +13,8 @@ namespace Feeders
         {
             return () =>
             {
-                AvailableRanks.Add(_randomCode.Next());
-                return string.Format(Values, _randomCode.Current(), 1, Prefix + _randomCode.Current());
+                AvailableRanks.Add(RandomCode.Next());
+                return string.Format(Values, RandomCode.Current(), 1, Prefix + RandomCode.Current());
             };
         }
 

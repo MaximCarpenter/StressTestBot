@@ -6,7 +6,7 @@ using Feeders;
 
 namespace Test
 {
-    public class ConcreteFeeder : IDataFeeder 
+    public class ConcreteAPMFeeder : IDataFeeder 
     {
         public int CurrentAmountOfRows { get; set; }
         public string CurrentTableName { get; set; }
@@ -19,7 +19,13 @@ namespace Test
         public List<string> AvailableRanks { get; set; } = new List<string>();
         public Dictionary<int, int> PinPosition { get; set; } = new Dictionary<int, int>();
 
-        public ConcreteFeeder()
+        private DbCounter _apmCounter;
+        public DbCounter ApmCounter => _apmCounter ?? (_apmCounter = new APMCounter());
+
+        private DbCounter _appCounter;
+        public DbCounter AppCounter => _appCounter ?? (_appCounter = new APPCounter());
+
+        public ConcreteAPMFeeder()
         {
             _actions.Add(C02);
             _actions.Add(C12);

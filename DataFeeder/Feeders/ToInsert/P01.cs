@@ -31,7 +31,7 @@ namespace Feeders
 
         protected override Func<string> InsertForm()
         {
-            return () => string.Format(Values, IterationCounter, Prefix + _randomCode.Current(), RandomRank());
+            return () => string.Format(Values, IterationCounter, Prefix + RandomCode.Current(), RandomRank());
         }
 
         public override string Generate(int count)

@@ -10,6 +10,8 @@ namespace DataFeeder
         private readonly string _connectionString;
         public event EventHandler<OperationEventArgs> OperationEnd;
         public event EventHandler<OperationEventStartArgs> OperationStart;
+        public int CurrentApmCounter { get; set; }
+        public int CurrentAppCounter { get; set; }
 
         protected virtual void OnOperationEnd(OperationEventArgs e)
         {
@@ -27,6 +29,12 @@ namespace DataFeeder
 
         public void Feed(IDataFeeder dataFeeder)
         {
+            FeedApm(dataFeeder);
+        }
+
+        private void FeedApm(IDataFeeder dataFeeder)
+        {
+            CheckCounter(dataFeeder.ApmCounter);
             var queryString = dataFeeder.Next();
             while (!dataFeeder.End)
             {
@@ -38,6 +46,14 @@ namespace DataFeeder
                     {
                         connection.Open();
                         var reader = command.ExecuteReader();
+
+                        command = new SqlCommand(dataFeeder.ApmCounter.SelectCounter, connection);
+                        reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            CurrentApmCounter = Convert.ToInt32(reader.GetString(0)) + dataFeeder.CurrentAmountOfRows;
+                        }
+
                         reader.Close();
                         End(dataFeeder, stopwatch, null);
                     }
@@ -48,6 +64,24 @@ namespace DataFeeder
 
                     stopwatch.Reset();
                     queryString = dataFeeder.Next();
+                }
+            }
+        }
+
+        private void CheckCounter(DbCounter counter)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var command = new SqlCommand(counter.InsertCounter, connection);
+                try
+                {
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
                 }
             }
         }
